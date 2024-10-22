@@ -2,6 +2,8 @@ import axios from "axios";
 import { API_URL } from "@env";
 import { getToken } from "./storage";
 
+console.log(API_URL);
+
 const api = axios.create({
   baseURL: API_URL,
   headers: {
@@ -13,12 +15,21 @@ api.interceptors.request.use(
   async (config) => {
     const token = await getToken("authToken");
     if (token) {
-      // si il y a un token, on l'envoie dans le header de la requête
       config.headers.Authorization = `Bearer ${token}`;
     }
+    console.log("Request Config:", config);
     return config;
   },
   (error) => {
+    console.error("Request Error:", error);
+    return Promise.reject(error);
+  }
+);
+
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    console.error("Response Error:", error);
     return Promise.reject(error);
   }
 );

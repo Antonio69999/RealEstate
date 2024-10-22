@@ -1,15 +1,26 @@
-import { StatusBar } from "expo-status-bar";
 import React from "react";
-import { Text, View } from "react-native";
-import { styled } from "nativewind";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import LoginScreen from "./screens/LoginScreen";
+import HomeScreen from "./screens/HomeScreen";
 
-const StyledView = styled(View);
-const StyledText = styled(Text);
+const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
-    <StyledView className="flex-1 items-center justify-center bg-black">
-      <StyledText className="text-white">Hello World</StyledText>
-    </StyledView>
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="Login">
+        <Stack.Screen
+          name="Login"
+          component={LoginScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Home"
+          component={HomeScreen}
+          options={{ headerShown: false }}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
